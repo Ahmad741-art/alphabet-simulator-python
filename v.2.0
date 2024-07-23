@@ -1,0 +1,45 @@
+import tkinter as tk
+
+class AlphabetSimulator:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Alphabet Simulator")
+
+        # Create canvas
+        self.canvas = tk.Canvas(root, width=800, height=600, bg="white")
+        self.canvas.pack()
+
+        # Set font properties
+        self.font = ("Arial", 48)
+
+        # Initialize current letter
+        self.current_letter = 'A'
+
+        # Bind click event
+        self.canvas.bind("<Button-1>", self.draw_letter)
+
+        # Optional: Bind key press event to change the current letter
+        self.root.bind("<Key>", self.change_letter)
+
+    def draw_letter(self, event):
+        # Get the click coordinates
+        x, y = event.x, event.y
+
+        # Draw the current letter at the clicked position
+        self.canvas.create_text(x, y, text=self.current_letter, font=self.font, fill="black")
+
+        # Move to the next letter in the alphabet
+        if self.current_letter == 'Z':
+            self.current_letter = 'A'
+        else:
+            self.current_letter = chr(ord(self.current_letter) + 1)
+
+    def change_letter(self, event):
+        # Change the current letter to the key pressed if it's between 'A' and 'Z'
+        if event.char.isalpha() and event.char.upper() <= 'Z':
+            self.current_letter = event.char.upper()
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = AlphabetSimulator(root)
+    root.mainloop()
